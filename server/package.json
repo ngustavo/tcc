@@ -1,0 +1,44 @@
+{
+  "name": "tcc",
+  "version": "0.0.1",
+  "description": "TCC start",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "tcc-app": "./src/app.mjs"
+  },
+  "scripts": {
+    "start": "node --es-module-specifier-resolution=node ./index.js",
+    "dev": "nodemon --es-module-specifier-resolution=node ./index.js",
+    "test": "jest",
+    "lint": "eslint ./src"
+  },
+  "pkg": {
+    "targets": [
+      "node14-linux",
+      "node14-win"
+    ],
+    "options": [
+      "experimental-modules"
+    ],
+    "outputPath": "dist"
+  },
+  "author": "Gustavo",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "sequelize": "^6.6.2",
+    "sequelize-cli": "^6.2.0",
+    "socket.io": "^4.1.2",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.24.0"
+  }
+}
