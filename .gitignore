@@ -1,17 +1,21 @@
 .DS_Store
+
 node_modules
 /client/node_modules
 /server/node_modules
 /dist
+
+# DB files
 *.sqlite3
 *.sqlite
 *.db
+
+# Tests
 *.http
 *.rest
 
-# local env files
-.env.local
-.env.*.local
+# Local env files
+.env
 
 # Log files
 npm-debug.log*
