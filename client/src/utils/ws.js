@@ -4,24 +4,29 @@ import store from '@/utils/store';
 
 const socket = io('localhost:3000', { autoConnect: false });
 
-socket.onAny((e, ...args) => {
-  console.log('SERVER:', e, args);
-});
+window.sock = (...args) => {
+  socket.emit(...args);
+};
 
-socket.prependAny((e, ...args) => {
-  console.log('CLIENT:', e, args);
+socket.onAny((e, ...args) => {
+  console.log('WS:', e, args);
 });
 
 socket.on('disconnect', (reason) => {
   console.log('disconnected', reason);
+  // window.location.reload(true);
 });
 
-socket.on('user:chat:message', (data) => {
-  store.actions.addMessage(data);
+socket.on('error', (data) => {
+  store.actions.setError(data);
 });
 
 socket.on('journey:list', (data) => {
   store.actions.setJourneys(data);
+});
+
+socket.on('user:list:phases', (data) => {
+  store.actions.setUsers(data);
 });
 
 socket.on('journey:create', (data) => {
@@ -36,11 +41,27 @@ socket.on('user:list', (data) => {
   store.actions.setUsers(data);
 });
 
+socket.on('user:read', (data) => {
+  store.actions.setUser(data);
+});
+
+socket.on('user:chat:message', (data) => {
+  store.actions.addMessage(data);
+});
+
+socket.on('user:chat:joined', (data) => {
+  store.actions.addMessage({ name: 'server', content: `${data} entrou!` });
+});
+
 socket.on('phase:create', (data) => {
   store.actions.addPhase(data);
 });
 
 socket.on('phase:list', (data) => {
+  store.actions.setPhases(data);
+});
+
+socket.on('phase:list:full', (data) => {
   store.actions.setPhases(data);
 });
 
@@ -52,6 +73,7 @@ const actions = {
         socket.auth = { token };
         socket.connect();
         socket.on('connect', () => {
+          this.getUser();
           store.actions.addMessage({ name: 'server', content: 'Você entrou!' });
           console.log('connected', true);
           resolve(true);
@@ -59,6 +81,7 @@ const actions = {
         socket.on('connect_error', (error) => {
           store.actions.setError(error);
           localStorage.removeItem('token');
+          window.location.reload(true);
           console.log(error);
           reject(error);
         });
@@ -76,17 +99,31 @@ const actions = {
   getUsers() {
     socket.emit('user:list');
   },
+  getUser(id) {
+    socket.emit('user:read', { id });
+  },
   addPhase(data) {
     socket.emit('phase:create', data);
   },
   getPhases() {
-    socket.emit('phase:list');
+    console.log(store.state.user);
+    if (store.state.user.role) {
+      socket.emit('phase:list:full');
+    } else {
+      socket.emit('phase:list');
+    }
   },
   addJourney(data) {
     socket.emit('journey:create', data);
   },
-  sendMessage(data) {
-    socket.emit('user:chat:message', data);
+  getJourneys() {
+    socket.emit('journey:list');
+  },
+  getAllJourneys() {
+    socket.emit('user:list:phases');
+  },
+  sendMessage(content) {
+    socket.emit('user:chat:message', { content });
   },
 };
 

@@ -3,15 +3,16 @@ import { ref, computed } from 'vue';
 import store from '@/utils/store';
 import ws from '@/utils/ws';
 
-const phase = computed(() => store.state.phases[store.state.game.phase] || {});
+const phase = computed(() => store.state.game.phase.def || {});
 const answer = ref('');
+
+const phaseImage = computed(() => `http://localhost:3000/api/phase/image/${phase.value.id}`);
 
 const send = () => {
   const journey = {
     phaseId: phase.value.id,
     answer: answer.value,
   };
-  console.log('jj', journey);
   ws.actions.addJourney(journey);
   answer.value = '';
 };
@@ -22,7 +23,7 @@ const send = () => {
     <div class="points">
       Total:
       <i class="nes-icon smaller coin"></i>
-      <span class="nes-text is-warning">{{ 100 }}</span>
+      <span class="nes-text is-warning">{{ store.state.user.total }}</span>
     </div>
     <div class="damage">
       Vale:
@@ -34,10 +35,7 @@ const send = () => {
     <span class="nes-text is-primary">{{ phase.hint }}</span>
   </div>
   <div class="frame">
-    <img
-      src="https://http2.mlstatic.com/D_NQ_NP_2X_689728-MLB44033873527_112020-F.webp"
-      alt=""
-    />
+    <img :src="phaseImage" alt="" />
   </div>
   <div class="footer">
     <form @submit.prevent="send" class="inputs">
@@ -60,6 +58,10 @@ const send = () => {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+}
+.points {
+  display: flex;
+  align-items: center;
 }
 .smaller {
   margin: 0 5px;

@@ -1,18 +1,12 @@
 <script setup>
-import { ref } from 'vue';
+import store from '@/utils/store';
 import Points from '@/components/Points.vue';
 import Question from '@/components/Question.vue';
-
-const answered = ref(false);
-
-// const answer = () => {
-//   answered.value = !answered.value;
-// };
 </script>
 
 <template>
-  <Question v-if="!answered" />
-  <Points v-else />
+  <Question v-if="store.state.game.phase.status == 0" />
+  <Points v-if="store.state.game.phase.status == 1" />
 </template>
 
 <style scoped>

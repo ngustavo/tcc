@@ -34,6 +34,7 @@ const send = async () => {
           <label for="lo">Nome</label>
           <input
             type="text"
+            autofocus
             id="lo"
             class="nes-input is-dark"
             placeholder="João"
@@ -68,7 +69,7 @@ section {
   align-items: flex-end;
 }
 .nes-input {
-  width: 300px;
+  min-width: 300px;
 }
 .nes-btn {
   width: 300px;

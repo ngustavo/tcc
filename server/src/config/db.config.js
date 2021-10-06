@@ -6,6 +6,7 @@ import Sequelize from 'sequelize'
 const db = {}
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 const modelsFolder = path.resolve(dirname, '../models')
+const uploadsFolder = path.resolve(dirname, '../../uploads')
 
 const sequelize = new Sequelize({
     dialect: 'sqlite',
@@ -38,6 +39,9 @@ const syncModels = (flag) => {
     case 1:
         return sequelize.sync()
     case 2:
+        if (fs.existsSync(uploadsFolder)) {
+            fs.rmdirSync(uploadsFolder, { recursive: true, force: true })
+        }
         return sequelize.sync({ force: true }) // drops existing tables
     case 3:
         return sequelize.sync({ alter: true }) // changes columns

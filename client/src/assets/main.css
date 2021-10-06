@@ -5,3 +5,21 @@
     font-display: auto;
     src: url("PressStart2P-Regular.ttf") format("truetype");
 }
+
+@font-face {
+    font-family: "PixelOperator";
+    font-weight: 400;
+    font-style: normal;
+    font-display: auto;
+    src: url("PixelOperatorMono-Bold.ttf") format("truetype");
+}
+
+@media (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+    * {
+        border-image-repeat: initial;
+    }
+}
+
+* {
+    border-image-repeat: initial;
+}

@@ -1,9 +1,7 @@
 <script setup>
 import store from '@/utils/store';
-import ws from '@/utils/ws';
 
 const start = () => {
-  ws.actions.getPhases();
   store.actions.startGame();
 };
 </script>

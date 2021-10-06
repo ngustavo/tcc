@@ -41,11 +41,8 @@ watch(store.state.messages, () => {
 </template>
 
 <style scoped>
-input {
-  font-size: 12px;
-}
 .chatbox {
-  height: calc(100% - 90px);
+  height: calc(100% - 100px);
   margin-bottom: 20px;
   overflow: hidden;
   overflow-y: auto;
@@ -55,7 +52,6 @@ input {
 }
 .message {
   display: block;
-  font-size: 12px;
   overflow-wrap: break-word;
 }
 .server {

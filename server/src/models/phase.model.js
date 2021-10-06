@@ -5,26 +5,19 @@ export default (sequelize, Sequelize) => {
             defaultValue: Sequelize.UUIDV4,
             primaryKey: true,
         },
-        number: {
-            type: Sequelize.INTEGER,
-            autoIncrement: true,
-        },
         name: {
-            type: Sequelize.STRING(50),
+            type: Sequelize.STRING,
             allowNull: false,
         },
-        description: {
-            type: Sequelize.STRING(50),
-        },
-        image: {
-            type: Sequelize.BLOB,
-        },
         hint: {
-            type: Sequelize.STRING(50),
+            type: Sequelize.STRING,
         },
         points: {
             type: Sequelize.INTEGER,
             defaultValue: 0,
+            validate: {
+                isInt: true,
+            },
         },
     })
     Phase.associate = (models) => {

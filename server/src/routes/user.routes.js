@@ -23,11 +23,8 @@ router.post('/', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    console.log('login')
     try {
-        console.log('login1', req.body.name)
         const token = await userController.login(req.body.name, req.body.password)
-        console.log('login2', token)
         res.json({ token })
     } catch (error) {
         res.status(400).send()

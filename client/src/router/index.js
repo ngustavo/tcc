@@ -16,6 +16,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../pages/Login.vue'),
   },
   {
+    path: '/journeys',
+    name: 'Jornadas',
+    component: () => import('../pages/Journeys.vue'),
+  },
+  {
     path: '/users',
     name: 'Editar Usuários',
     component: () => import('../pages/UserEditor.vue'),
@@ -35,7 +40,8 @@ const router = createRouter({
 const token = () => localStorage.getItem('token');
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && (!token())) next({ name: 'Login' });
+  if (to.name !== 'Login' && !token()) next({ name: 'Login' });
+  else if (to.name === 'Login' && token()) next({ name: 'Home' });
   else next();
 });
 

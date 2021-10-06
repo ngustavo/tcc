@@ -1,6 +1,7 @@
 <script setup>
 import { useRouter } from 'vue-router';
 import ws from '@/utils/ws';
+import store from '@/utils/store';
 
 const router = useRouter();
 
@@ -17,9 +18,14 @@ const logout = () => {
       <div>Ditado de Imagens</div>
     </div>
     <div class="links">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/users">Usuários</router-link> |
-      <router-link to="/phases">Fases</router-link> |
+      <span>
+        <router-link to="/">Home</router-link> |
+      </span>
+      <span v-if="store.state.user.role">
+        <router-link to="/journeys">Jornadas</router-link> |
+        <router-link to="/users">Usuários</router-link> |
+        <router-link to="/phases">Fases</router-link> |
+      </span>
       <a href="javascript:void(0)" @click="logout">Sair</a>
     </div>
   </div>
@@ -38,10 +44,11 @@ const logout = () => {
   display: flex;
   align-items: flex-end;
   gap: 20px;
+  font-size: 24px;
 }
 
 .links {
   float: right;
-  font-size: 12px;
+  /* font-size: 12px; */
 }
 </style>

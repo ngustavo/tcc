@@ -16,7 +16,7 @@ export default (sequelize, Sequelize) => sequelize.define('Journey', {
         },
     },
     answer: {
-        type: Sequelize.STRING(50),
+        type: Sequelize.STRING,
     },
     points: {
         type: Sequelize.INTEGER,

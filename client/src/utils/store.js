@@ -1,4 +1,4 @@
-import { reactive, readonly } from 'vue';
+import { reactive, readonly, computed } from 'vue';
 
 import http from '@/utils/http';
 
@@ -6,10 +6,16 @@ const state = reactive({
   error: '',
   game: {
     status: 0,
-    phase: 0,
-    points: 0,
+    phase: {
+      count: 0,
+      status: 0,
+      points: 0,
+      def: null,
+    },
   },
-  user: {},
+  user: {
+    total: 0,
+  },
   users: [],
   journeys: [],
   phases: [],
@@ -19,6 +25,7 @@ const state = reactive({
 const actions = {
   setError(data) {
     state.error = data.message || data;
+    console.log('Erro: ', state.error);
   },
   setUser(data) {
     state.user = data;
@@ -37,23 +44,45 @@ const actions = {
   },
   addJourney(data) {
     state.journeys.push(data);
-    this.passPhase();
+    state.user.total = data.total;
+    this.passQuestion();
   },
   setJourneys(data) {
     state.journeys = data;
+    this.setPhase(state.journeys.length);
   },
   addMessage(data) {
     state.messages.push(data);
   },
   startGame() {
     state.game.status = 1;
+    state.game.phase.def = computed(() => state.phases[state.game.phase.count]);
+  },
+  setPhase(index) {
+    if (index !== undefined) {
+      state.game.phase.count = index;
+    } else {
+      state.game.phase.count += 1;
+    }
+    if (state.phases.length < 1) {
+      this.emptyGame();
+    } else if (state.game.phase.count >= state.phases.length) {
+      this.endGame();
+    }
+    console.log('set phase', state.phases.length, state.game.phase.count);
+  },
+  passQuestion() {
+    console.log('pass question', state.game.phase, state.phases.length);
+    state.game.phase.status = 1;
   },
   passPhase() {
-    if (state.game.phase >= state.phases.length) {
-      this.endGame();
-    } else {
-      state.game.phase += 1;
-    }
+    state.game.phase.status = 0;
+    state.game.phase.points = 0;
+    this.setPhase();
+    console.log('pass phase', state.phases.length, state.game.phase);
+  },
+  emptyGame() {
+    state.game.status = 3;
   },
   endGame() {
     state.game.status = 2;
@@ -65,7 +94,7 @@ const actions = {
       localStorage.setItem('token', token);
       return token;
     } catch (error) {
-      state.error = error.message;
+      this.setError(error.message);
       return false;
     }
   },

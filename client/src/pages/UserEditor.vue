@@ -21,36 +21,52 @@ ws.actions.getUsers();
   <section>
     <div class="nes-container with-title is-dark is-rounded users">
       <p class="title">Usuários</p>
-      <div v-for="(u,i) in store.state.users" :key="i">
-        <p class="user">{{u.name}}</p>
-        <p class="user">{{u.id}}</p>
+      <div v-for="(u,i) in store.state.users" :key="i" class="user">
+        <div class="attributes">
+          <p>Nome: {{u.name}}</p>
+          <p>Pontuação: {{u.total}}</p>
+          <p>Acertou: 2</p>
+        </div>
+        <div class="leftbtn">
+          <button type="button" class="nes-btn is-error" @click="$emit('close')">🗙</button>
+        </div>
       </div>
     </div>
-    <div class="nes-container with-title is-dark is-rounded">
-      <p class="title">Criar Usuário</p>
-      <form @submit.prevent="send" class="inputs">
-        <div class="nes-field">
-          <label for="name">Nome</label>
-          <input
-            type="text"
-            id="name"
-            class="nes-input is-dark"
-            placeholder="João"
-            v-model="user.name"
-          />
+    <div>
+      <div class="nes-container with-title is-dark is-rounded">
+        <p class="title">Criar Usuário</p>
+        <form @submit.prevent="send" class="inputs">
+          <div class="nes-field">
+            <label for="name">Nome</label>
+            <input
+              type="text"
+              id="name"
+              class="nes-input is-dark"
+              placeholder="João"
+              v-model="user.name"
+            />
+          </div>
+          <div class="nes-field">
+            <label for="password">Senha</label>
+            <input
+              type="password"
+              id="password"
+              class="nes-input is-dark"
+              placeholder="s3nh4"
+              v-model="user.password"
+            />
+          </div>
+          <input type="submit" class="nes-btn is-success" value="Criar" />
+        </form>
+      </div>
+      <div class="nes-container with-title is-dark is-rounded export">
+        <p class="title">Exportar</p>
+        <div class="inputs">
+          <button type="button" class="nes-btn is-primary" @click="$emit('close')">
+            Gerar CSV
+          </button>
         </div>
-        <div class="nes-field">
-          <label for="password">Senha</label>
-          <input
-            type="password"
-            id="password"
-            class="nes-input is-dark"
-            placeholder="s3nh4"
-            v-model="user.password"
-          />
-        </div>
-        <input type="submit" class="nes-btn is-success" value="Criar" />
-      </form>
+      </div>
     </div>
   </section>
 </template>
@@ -61,6 +77,22 @@ section {
   align-items: flex-start;
   gap: 10px;
 }
+.users {
+  flex: 1;
+}
+.user {
+  background: gray;
+  margin: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.attributes {
+  margin: 10px;
+}
+.leftbtn {
+  margin: 0 10px 0 auto;
+}
 .inputs {
   gap: 20px;
   display: flex;
@@ -68,13 +100,13 @@ section {
   justify-content: space-around;
   align-items: flex-end;
 }
-.users {
-  flex: 1;
-}
 .nes-input {
   width: 300px;
 }
-.nes-btn {
+.inputs .nes-btn {
   width: 300px;
+}
+.export {
+  margin-top: 30px;
 }
 </style>

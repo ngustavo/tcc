@@ -11,7 +11,7 @@ import store from '@/utils/store';
       <p>Parabéns! Você concluiu!</p>
       <p>
         Sua pontuação:
-        <span class="points">{{ store.state.game.points }}</span>
+        <span class="points">{{ store.state.user.total }}</span>
       </p>
     </div>
   </div>

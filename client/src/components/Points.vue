@@ -7,10 +7,16 @@ import store from '@/utils/store';
       <div class="cat">
         <i class="nes-octocat animate"></i>
       </div>
-      <p class="nes-balloon from-left nes-pointer is-dark">
-        A resposta era:
-        <label>SAPATO</label>
-      </p>
+      <div class="nes-balloon from-left nes-pointer is-dark">
+        <p>A resposta era:
+          <span class="name">{{store.state.journeys[store.state.game.phase.count].name}}</span>
+        </p>
+        <p>Você ganhou:
+          <span class="points">
+            {{store.state.journeys[store.state.game.phase.count].points}} pontos
+          </span>
+        </p>
+      </div>
     </div>
     <button
       @click="store.actions.passPhase()"
@@ -34,5 +40,11 @@ import store from '@/utils/store';
   background: white;
   padding: 10px;
   border-radius: 10%;
+}
+.name {
+  color: yellowgreen;
+}
+.points {
+  color: orange;
 }
 </style>
