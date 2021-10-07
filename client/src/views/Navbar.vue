@@ -17,7 +17,7 @@ const logout = () => {
       <i class="snes-jp-logo"></i>
       <div>Ditado de Imagens</div>
     </div>
-    <div class="links">
+    <div class="links" v-if="router.currentRoute.value.name !== 'Login'">
       <span>
         <router-link to="/">Home</router-link> |
       </span>

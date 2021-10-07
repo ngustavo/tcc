@@ -36,8 +36,16 @@ const update = (user) => {
     console.log('update', user)
 }
 
-const del = (id) => {
+const del = async (id) => {
     console.log('delete', id)
+    try {
+        const phase = await db.Phase.destroy({ where: { id } })
+        console.log('deleted', phase)
+        return phase
+    } catch (error) {
+        console.log(error)
+        return false
+    }
 }
 
 export default {

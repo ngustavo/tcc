@@ -2,8 +2,7 @@
 import store from '@/utils/store';
 import ws from '@/utils/ws';
 
-const imgPath = 'http://localhost:3000/api/phase/image/';
-
+ws.actions.getPhases();
 ws.actions.getAllJourneys();
 </script>
 
@@ -11,25 +10,20 @@ ws.actions.getAllJourneys();
   <section>
     <div class="nes-container with-title is-dark is-rounded journeys">
       <p class="title">Jornadas</p>
-      <p v-if="store.state.users.length == 0">Nenhum usuário encontrado.</p>
-      <div class="phase">
-        <div class="attributes">
-          <p>Resultados</p>
-        </div>
-        <div v-for="(p,i) in store.state.phases" :key="i" class="frame">
-          <img :src="imgPath + p.id" alt="" />
-        </div>
-        <!-- <div class="leftbtn">
-          <button type="button" class="nes-btn is-error" @click="$emit('close')">🗙</button>
-        </div> -->
-      </div>
-      <div v-for="(u,i) in store.state.users" :key="i" class="user">
-        <div class="attributes">
-          <p>Nome: {{u.name}}</p>
-        </div>
-        <div v-for="(p,i) in u.Phases" :key="i">
-          <p>Fase: {{p.name}}</p>
-          <p>Resposta: {{p.Journey.answer}}</p>
+      <p v-if="!store.state.users.length">Nenhum usuário encontrado.</p>
+      <div v-else class="table">
+        <div v-for="(u,i) in store.state.users" :key="i" class="user">
+          <div class="attributes user-attr">
+            <p><span class="nes-text is-warning">Nome:</span> {{u.name}}</p>
+            <p><span class="nes-text is-warning">Pontuação:</span> {{u.total}}</p>
+          </div>
+          <div class="phases">
+            <p v-if="!u.Phases?.length">Ainda não iniciou.</p>
+            <div v-else v-for="(p,j) in u.Phases" :key="j" class="attributes">
+              <p><span class="nes-text is-warning">{{j+1}}.</span> {{p.name}}</p>
+              <p><span class="nes-text is-warning">R:</span> {{p.Journey.answer}}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -41,55 +35,33 @@ section {
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  overflow: auto;
 }
 .journeys {
   flex: 1;
 }
-.user, .phase {
-  background: gray;
+.phases {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 10px;
+}
+.user {
+  background: #414549;
   margin: 10px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
-.frame {
-  width: 100px;
-  height: 50px;
-  margin: 10px;
-  text-align: center;
-  background: black;
-}
-.attributes {
-  margin: 10px;
-}
-.leftbtn {
-  margin: 0 10px 0 auto;
-}
-img {
-  height: 100%;
-  object-fit: cover;
-}
-.inputs {
-  gap: 20px;
+.user-attr {
+  width: 200px;
+  align-self: stretch;
   display: flex;
   flex-flow: column;
-  justify-content: space-around;
-  align-items: flex-end;
+  justify-content: center;
 }
-input[type='file'] {
-  display: none
-}
-.img-name {
-  color: orange;
-  margin: 10px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 250px;
-}
-.nes-input {
-  width: 300px;
-}
-.inputs .nes-btn {
-  width: 300px;
+.attributes {
+  padding: 0 10px;
+  background: #616569;
 }
 </style>

@@ -33,6 +33,10 @@ const onFileChange = (e) => {
   phase.mime = file.type;
 };
 
+const del = (id) => {
+  ws.actions.delPhase(id);
+};
+
 ws.actions.getPhases();
 </script>
 
@@ -40,18 +44,18 @@ ws.actions.getPhases();
   <section>
     <div class="nes-container with-title is-dark is-rounded phases">
       <p class="title">Fases</p>
-      <p v-if="store.state.phases.length == 0">Nenhuma fase encontrada.</p>
+      <p v-if="!store.state.phases.length">Nenhuma fase encontrada.</p>
       <div v-for="(p,i) in store.state.phases" :key="i" class="phase">
         <div class="frame">
           <img :src="imgPath + p.id" alt="" />
         </div>
         <div class="attributes">
-          <p>Palavra: {{p.name}}</p>
-          <p>Dica: {{p.hint}}</p>
-          <p>Pontos: {{p.points}}</p>
+          <p><span class="nes-text is-warning">Palavra:</span> {{p.name}}</p>
+          <p><span class="nes-text is-warning">Dica:</span> {{p.hint}}</p>
+          <p><span class="nes-text is-warning">Pontos:</span> {{p.points}}</p>
         </div>
         <div class="leftbtn">
-          <button type="button" class="nes-btn is-error" @click="$emit('close')">🗙</button>
+          <button type="button" class="nes-btn is-error" @click="del(p.id)">🗙</button>
         </div>
       </div>
     </div>
@@ -117,8 +121,8 @@ section {
   flex: 1;
 }
 .phase {
-  background: gray;
-  margin: 10px;
+  background: #414549;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;

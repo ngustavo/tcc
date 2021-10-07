@@ -9,11 +9,11 @@ import store from '@/utils/store';
       </div>
       <div class="nes-balloon from-left nes-pointer is-dark">
         <p>A resposta era:
-          <span class="name">{{store.state.journeys[store.state.game.phase.count].name}}</span>
+          <span class="name">{{store.state.journeys[store.state.game.phase.count]?.name}}</span>
         </p>
         <p>Você ganhou:
           <span class="points">
-            {{store.state.journeys[store.state.game.phase.count].points}} pontos
+            {{store.state.journeys[store.state.game.phase.count]?.points}} pontos
           </span>
         </p>
       </div>

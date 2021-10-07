@@ -1,5 +1,8 @@
 <script setup>
 import store from '@/utils/store';
+import ws from '@/utils/ws';
+
+ws.actions.getUser();
 </script>
 
 <template>

@@ -14,6 +14,10 @@ const send = () => {
   user.password = '';
 };
 
+const del = (id) => {
+  ws.actions.delUser(id);
+};
+
 ws.actions.getUsers();
 </script>
 
@@ -23,12 +27,11 @@ ws.actions.getUsers();
       <p class="title">Usuários</p>
       <div v-for="(u,i) in store.state.users" :key="i" class="user">
         <div class="attributes">
-          <p>Nome: {{u.name}}</p>
-          <p>Pontuação: {{u.total}}</p>
-          <p>Acertou: 2</p>
+          <p><span class="nes-text is-warning">Nome:</span> {{u.name}}</p>
+          <p><span class="nes-text is-warning">Pontuação:</span> {{u.total}}</p>
         </div>
         <div class="leftbtn">
-          <button type="button" class="nes-btn is-error" @click="$emit('close')">🗙</button>
+          <button type="button" class="nes-btn is-error" @click="del(u.id)">🗙</button>
         </div>
       </div>
     </div>
@@ -81,8 +84,8 @@ section {
   flex: 1;
 }
 .user {
-  background: gray;
-  margin: 10px;
+  background: #414549;
+  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;

@@ -2,7 +2,29 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import { db } from '../config/db.config'
 
-const list = () => db.User.findAll()
+const list = async () => {
+    try {
+        const user = await db.User.findAll({
+            attributes: ['id', 'name', 'total', 'role'],
+        })
+        return user
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
+
+const read = async (uid) => {
+    try {
+        const user = await db.User.findByPk(uid, {
+            attributes: ['id', 'name', 'total', 'role'],
+        })
+        return user
+    } catch (error) {
+        console.log(error)
+        return false
+    }
+}
 
 const create = async (name, pw, role) => {
     try {
@@ -15,38 +37,20 @@ const create = async (name, pw, role) => {
     }
 }
 
-const read = async (uid) => {
-    try {
-        const {
-            id, name, total, role,
-        } = await db.User.findByPk(uid)
-        return {
-            id, name, total, role,
-        }
-    } catch (error) {
-        console.log(error)
-        return false
-    }
-}
-
-const allJourneys = async () => {
-    try {
-        const users = await db.User.findAll({
-            include: db.Phase,
-        })
-        return users
-    } catch (error) {
-        console.log(error)
-        return false
-    }
-}
-
 const update = (user) => {
     console.log('update', user)
 }
 
-const del = (id) => {
+const del = async (id) => {
     console.log('delete', id)
+    try {
+        const user = await db.User.destroy({ where: { id } })
+        console.log('deleted', user)
+        return user
+    } catch (error) {
+        console.log(error)
+        return false
+    }
 }
 
 const login = async (name, pw) => {
@@ -63,6 +67,18 @@ const login = async (name, pw) => {
         return token
     } catch (error) {
         throw new Error(error)
+    }
+}
+
+const allJourneys = async () => {
+    try {
+        const users = await db.User.findAll({
+            include: db.Phase,
+        })
+        return users
+    } catch (error) {
+        console.log(error)
+        return false
     }
 }
 

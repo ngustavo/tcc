@@ -12,6 +12,16 @@ export default (io, socket) => {
         socket.emit('user:read', user)
     })
 
+    socket.on('user:del', async (data) => {
+        if (socket.user.role < 1) {
+            socket.emit('error', '403')
+            return
+        }
+        await userController.del(data.id)
+        const user = await userController.list()
+        socket.emit('user:del', user)
+    })
+
     socket.on('user:create', async (data) => {
         if (socket.user.role < 1) {
             socket.emit('error', '403')

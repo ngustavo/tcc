@@ -42,6 +42,16 @@ export default (io, socket) => {
             socket.emit('error', '500')
             return
         }
-        socket.emit('phase:create', phase)
+        io.emit('phase:create', phase.id)
+    })
+
+    socket.on('phase:del', async (data) => {
+        if (socket.user.role < 1) {
+            socket.emit('error', '403')
+            return
+        }
+        await phaseController.del(data.id)
+        const user = await phaseController.list()
+        socket.emit('phase:del', user)
     })
 }

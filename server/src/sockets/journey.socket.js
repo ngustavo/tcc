@@ -8,8 +8,10 @@ export default (io, socket) => {
     })
 
     socket.on('journey:create', async (data) => {
-        const journey = await journeyController.create(data.answer, data.phaseId, socket.user.id)
-        socket.emit('journey:create', journey)
+        const { userId, phaseId } = await journeyController.create(
+            data.answer, data.phaseId, socket.user.id,
+        )
+        io.emit('journey:create', { userId, phaseId })
     })
 
     socket.on('journey:typing', (data) => {
