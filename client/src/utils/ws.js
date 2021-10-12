@@ -77,7 +77,6 @@ socket.onAny((e, ...args) => {
 
 socket.on('disconnect', (reason) => {
   console.log('disconnected', reason);
-  // window.location.reload(true);
 });
 
 socket.on('error', (data) => {
@@ -92,10 +91,9 @@ socket.on('user:list:phases', (data) => {
   store.actions.setUsers(data);
 });
 
-socket.on('journey:create', () => {
-  // store.actions.addJourney(data);
+socket.on('journey:create', (data) => {
+  if (store.state.user.id === data.userId) store.actions.addJourney(data);
   if (store.state.user.role > 0) actions.getAllJourneys();
-  else actions.getJourneys();
 });
 
 socket.on('user:create', (data) => {
@@ -124,6 +122,7 @@ socket.on('user:chat:joined', (data) => {
 
 socket.on('phase:create', () => {
   actions.getPhases();
+  actions.getJourneys();
 });
 
 socket.on('phase:list', (data) => {

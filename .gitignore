@@ -5,7 +5,7 @@ node_modules
 /server/node_modules
 /dist
 /tmp
-/uploads
+/server/uploads
 
 # DB files
 *.sqlite3

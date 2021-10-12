@@ -10,8 +10,6 @@ const list = async () => {
 }
 
 const create = async (answer, phaseId, userId) => {
-    // const journey = await db.Journey.findOne({ where: { phaseId, userId } })
-    // if (journey) return { exists: true }
     try {
         const phase = await db.Phase.findByPk(phaseId)
         const { name } = phase
@@ -30,22 +28,6 @@ const create = async (answer, phaseId, userId) => {
     }
 }
 
-const read = (id) => {
-    console.log('read', id)
-}
-
-const update = (user) => {
-    console.log('update', user)
-}
-
-const del = (id) => {
-    console.log('delete', id)
-}
-
-const login = (username, password) => {
-    console.log('login', { username, password })
-}
-
 export default {
-    list, create, read, update, del, login,
+    list, create,
 }

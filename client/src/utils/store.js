@@ -41,6 +41,7 @@ const actions = {
   },
   setPhases(data) {
     state.phases = data;
+    state.game.status = 0;
   },
   addJourney(data) {
     state.journeys.push(data);
